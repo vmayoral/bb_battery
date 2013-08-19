@@ -2,7 +2,7 @@ import subprocess
 import os
 
 class I2C:
-   def __init__(self, bus="1", chip="0x60"):
+   def __init__(self, bus="0", chip="0x24"):
      self.bus = bus
      self.chip = chip
 
@@ -27,7 +27,7 @@ class I2C:
        return 0
    
    def readI2C(self, register):
-       """ uses i2c-tools to read the MPL register values.
+       """ uses i2c-tools to read register values.
                the parameters should be given as strings.
        """
        p = subprocess.Popen(["i2cget", "-f" ,self.bus, self.chip, register],stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -39,36 +39,36 @@ class I2C:
        return valor
    
    def writeI2C(self, register, value):
-       """ Write a value into a register of the MPL sensor using the Linux i2c-tools.
+       """ Write a value into a register using the Linux i2c-tools.
                the parameters should be given as strings.
        """
-       p = subprocess.Popen(["i2cset", "-f" ,self.bus, self.chip, register, value],stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+       p = subprocess.Popen(["i2cset", "-f" , self.bus, self.chip, register, value],stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
        # confirm the warning message
        p.stdin.write('Y\n')
        p.kill()
    
    def check_i2ctools(self):
-   	print ""
-   	print "Checking if i2c-tools are installed:"
-   	flag = 0
-   	if self.check("i2cget"):
-   	    print "     i2cget: YES"
-   	else:
-   	    print "     i2cget: NO"
-   	    flag = 1
-   	    
-   	if self.check("i2cset"):
-   	    print "     i2cset: YES"
-   	else:
-   	    print "     i2cset: NO"
-   	    flag = 1
-   	    
-   	if flag:
-   	    print ""
-   	    print "Linux i2c-tools doesn't seem to be correctly installed. Please install them before running."
-   	    raise SystemExit
-   	else:
-   	    print ""
-   	    print "Linux i2c-tools properly installed"
-    
+    print ""
+    print "Checking if i2c-tools are installed:"
+    flag = 0
+    if self.check("i2cget"):
+        print "     i2cget: YES"
+    else:
+        print "     i2cget: NO"
+        flag = 1
         
+    if self.check("i2cset"):
+        print "     i2cset: YES"
+    else:
+        print "     i2cset: NO"
+        flag = 1
+        
+    if flag:
+        print ""
+        print "Linux i2c-tools doesn't seem to be correctly installed. Please install them before running."
+        raise SystemExit
+    else:
+        print ""
+        print "Linux i2c-tools properly installed"
+    
+

@@ -39,7 +39,18 @@ TPS65271_SEQ6       ="0x1E"
 
 device = I2C()
 device.check_i2ctools()
-print device.readI2C(TPS65271_CHIPID)
+
+# For some reason writeI2C method doesn't seem to work
+#device.writeI2C(TPS65271_CHGCONFIG3, "0xb2")
+
+print "TPS65271_CHIPID: "+ bin(int(device.readI2C(TPS65271_CHIPID),16))
+print "TPS65271_CHGCONFIG0: "+ bin(int(device.readI2C(TPS65271_CHGCONFIG0),16))
+print "TPS65271_CHGCONFIG1: "+ bin(int(device.readI2C(TPS65271_CHGCONFIG1),16))
+print "TPS65271_CHGCONFIG2: "+ bin(int(device.readI2C(TPS65271_CHGCONFIG2),16))
+print "TPS65271_CHGCONFIG3: "+ bin(int(device.readI2C(TPS65271_CHGCONFIG3),16))
+print "TPS65271_DEFUVLO: "+ bin(int(device.readI2C(TPS65271_DEFUVLO),16))
+
+
 
 """
 def node():
@@ -98,3 +109,4 @@ if __name__ == '__main__':
     except rospy.ROSInterruptException:
         pass
 """
+
