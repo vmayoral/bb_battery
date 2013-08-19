@@ -50,6 +50,13 @@ print "TPS65271_CHGCONFIG2: "+ bin(int(device.readI2C(TPS65271_CHGCONFIG2),16))
 print "TPS65271_CHGCONFIG3: "+ bin(int(device.readI2C(TPS65271_CHGCONFIG3),16))
 print "TPS65271_DEFUVLO: "+ bin(int(device.readI2C(TPS65271_DEFUVLO),16))
 
+chconfig0 = bin(int(device.readI2C(TPS65271_CHGCONFIG0),16))
+if len(chconfig0) < 7:
+    print "TERMI: 0" 
+else:
+    TERMI = chconfig0[4]
+    print "TERMI: "+ TERMI
+
 
 
 """
