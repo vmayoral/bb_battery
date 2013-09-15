@@ -55,7 +55,7 @@ print "TPS65271_DEFUVLO: "+ bin(int(device.readI2C(TPS65271_DEFUVLO),16))
 print "---------------------------"
 
 print "checking TERMI:"
-checkTERMI()
+
 
 """
     Check TERMI bit (CHCONFIG0[4]) which determines:
@@ -65,17 +65,12 @@ def checkTERMI():
     termi1 = "charge termination current threshold has been crossed and charging has been stopped. This can be due to a battery reaching full capacity or to a battery removal condition"
     chconfig0 = bin(int(device.readI2C(TPS65271_CHGCONFIG0),16))
     if len(chconfig0) < 5:
-        #print "TERMI: 0" 
-        print termi0
+        print "TERMI: 0" 
     else:
         TERMI = chconfig0[4]
-        #print "TERMI: "+ TERMI
-        if TERMI:
-            print termi1
-        else:
-            print termi0
+        print "TERMI: "+ TERMI
 
-
+checkTERMI()
 
 
 """
