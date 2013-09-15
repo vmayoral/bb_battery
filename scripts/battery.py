@@ -43,19 +43,38 @@ device.check_i2ctools()
 # For some reason writeI2C method doesn't seem to work
 #device.writeI2C(TPS65271_CHGCONFIG3, "0xb2")
 
+print "---------------------------"
+print "---------REGISTERS---------"
+print "---------------------------"
 print "TPS65271_CHIPID: "+ bin(int(device.readI2C(TPS65271_CHIPID),16))
 print "TPS65271_CHGCONFIG0: "+ bin(int(device.readI2C(TPS65271_CHGCONFIG0),16))
 print "TPS65271_CHGCONFIG1: "+ bin(int(device.readI2C(TPS65271_CHGCONFIG1),16))
 print "TPS65271_CHGCONFIG2: "+ bin(int(device.readI2C(TPS65271_CHGCONFIG2),16))
 print "TPS65271_CHGCONFIG3: "+ bin(int(device.readI2C(TPS65271_CHGCONFIG3),16))
 print "TPS65271_DEFUVLO: "+ bin(int(device.readI2C(TPS65271_DEFUVLO),16))
+print "---------------------------"
 
-chconfig0 = bin(int(device.readI2C(TPS65271_CHGCONFIG0),16))
-if len(chconfig0) < 7:
-    print "TERMI: 0" 
-else:
-    TERMI = chconfig0[4]
-    print "TERMI: "+ TERMI
+print "checking TERMI:"
+checkTERMI()
+
+"""
+    Check TERMI bit (CHCONFIG0[4]) which determines:
+"""
+def checkTERMI():
+    termi0 = "charging, charge termination current threshold has not been crossed"
+    termi1 = "charge termination current threshold has been crossed and charging has been stopped. This can be due to a battery reaching full capacity or to a battery removal condition"
+    chconfig0 = bin(int(device.readI2C(TPS65271_CHGCONFIG0),16))
+    if len(chconfig0) < 5:
+        #print "TERMI: 0" 
+        print termi0
+    else:
+        TERMI = chconfig0[4]
+        #print "TERMI: "+ TERMI
+        if TERMI:
+            print termi1
+        else:
+            print termi0
+
 
 
 
