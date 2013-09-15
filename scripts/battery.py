@@ -43,26 +43,49 @@ device.check_i2ctools()
 # For some reason writeI2C method doesn't seem to work
 #device.writeI2C(TPS65271_CHGCONFIG3, "0xb2")
 
-print "---------------------------"
-print "---------REGISTERS---------"
-print "---------------------------"
-print "TPS65271_CHIPID: "+ bin(int(device.readI2C(TPS65271_CHIPID),16))
-print "TPS65271_CHGCONFIG0: "+ bin(int(device.readI2C(TPS65271_CHGCONFIG0),16))
-print "TPS65271_CHGCONFIG1: "+ bin(int(device.readI2C(TPS65271_CHGCONFIG1),16))
-print "TPS65271_CHGCONFIG2: "+ bin(int(device.readI2C(TPS65271_CHGCONFIG2),16))
-print "TPS65271_CHGCONFIG3: "+ bin(int(device.readI2C(TPS65271_CHGCONFIG3),16))
-print "TPS65271_DEFUVLO: "+ bin(int(device.readI2C(TPS65271_DEFUVLO),16))
-print "---------------------------"
-
-print "checking TERMI:"
-
+def registers():
+    print "---------------------------"
+    print "---------REGISTERS---------"
+    print "---------------------------"
+    print "TPS65271_CHIPID: "+ bin(int(device.readI2C(TPS65271_CHIPID),16))
+    print "TPS65271_PPATH: "+ bin(int(device.readI2C(TPS65271_PPATH),16))
+    print "TPS65271_INT: "+ bin(int(device.readI2C(TPS65271_INT),16))
+    print "TPS65271_CHGCONFIG0: "+ bin(int(device.readI2C(TPS65271_CHGCONFIG0),16))
+    print "TPS65271_CHGCONFIG1: "+ bin(int(device.readI2C(TPS65271_CHGCONFIG1),16))
+    print "TPS65271_CHGCONFIG2: "+ bin(int(device.readI2C(TPS65271_CHGCONFIG2),16))
+    print "TPS65271_CHGCONFIG3: "+ bin(int(device.readI2C(TPS65271_CHGCONFIG3),16))
+    print "TPS65271_WLEDCTRL1: "+ bin(int(device.readI2C(TPS65271_WLEDCTRL1),16))
+    print "TPS65271_WLEDCTRL2: "+ bin(int(device.readI2C(TPS65271_WLEDCTRL2),16))
+    print "TPS65271_MUXCTRL: "+ bin(int(device.readI2C(TPS65271_MUXCTRL),16))
+    print "TPS65271_STATUS: "+ bin(int(device.readI2C(TPS65271_STATUS),16))
+    print "TPS65271_PASSWORD: "+ bin(int(device.readI2C(TPS65271_DEFUVLO),16))
+    print "TPS65271_PGOOD: "+ bin(int(device.readI2C(TPS65271_DEFUVLO),16))
+    print "TPS65271_DEFPG: "+ bin(int(device.readI2C(TPS65271_DEFPG),16))
+    print "TPS65271_DEFDCDC1: "+ bin(int(device.readI2C(TPS65271_DEFDCDC1),16))
+    print "TPS65271_DEFDCDC2: "+ bin(int(device.readI2C(TPS65271_DEFDCDC2),16))
+    print "TPS65271_DEFDCDC3: "+ bin(int(device.readI2C(TPS65271_DEFDCDC3),16))
+    print "TPS65271_DEFSLEW: "+ bin(int(device.readI2C(TPS65271_DEFSLEW),16))
+    print "TPS65271_DEFLDO1: "+ bin(int(device.readI2C(TPS65271_DEFLDO1),16))
+    print "TPS65271_DEFLDO2: "+ bin(int(device.readI2C(TPS65271_DEFLDO2),16))
+    print "TPS65271_DEFLS1: "+ bin(int(device.readI2C(TPS65271_DEFLS1),16))
+    print "TPS65271_DEFLS2: "+ bin(int(device.readI2C(TPS65271_DEFLS2),16))
+    print "TPS65271_ENABLE: "+ bin(int(device.readI2C(TPS65271_ENABLE),16))
+    print "TPS65271_DEFUVLO: "+ bin(int(device.readI2C(TPS65271_DEFUVLO),16))
+    print "TPS65271_SEQ1: "+ bin(int(device.readI2C(TPS65271_SEQ1),16))
+    print "TPS65271_SEQ2: "+ bin(int(device.readI2C(TPS65271_SEQ2),16))
+    print "TPS65271_SEQ3: "+ bin(int(device.readI2C(TPS65271_SEQ3),16))
+    print "TPS65271_SEQ4: "+ bin(int(device.readI2C(TPS65271_SEQ4),16))
+    print "TPS65271_SEQ5: "+ bin(int(device.readI2C(TPS65271_SEQ5),16))
+    print "TPS65271_SEQ6: "+ bin(int(device.readI2C(TPS65271_SEQ6),16))
+    print "---------------------------"
+    print "---------------------------"
 
 """
     Check TERMI bit (CHCONFIG0[4]) which determines:
 """
 def checkTERMI():
-    termi0 = "charging, charge termination current threshold has not been crossed"
-    termi1 = "charge termination current threshold has been crossed and charging has been stopped. This can be due to a battery reaching full capacity or to a battery removal condition"
+    #termi0 = "charging, charge termination current threshold has not been crossed"
+    #termi1 = "charge termination current threshold has been crossed and charging has been stopped. This can be due to a battery reaching full capacity or to a battery removal condition"
     chconfig0 = bin(int(device.readI2C(TPS65271_CHGCONFIG0),16))
     if len(chconfig0) < 5:
         print "TERMI: 0" 
@@ -70,6 +93,7 @@ def checkTERMI():
         TERMI = chconfig0[4]
         print "TERMI: "+ TERMI
 
+registers()
 checkTERMI()
 
 
