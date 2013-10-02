@@ -84,14 +84,20 @@ def registers():
     Check TERMI bit (CHCONFIG0[4]) which determines:
 """
 def checkTERMI():
-    #termi0 = "charging, charge termination current threshold has not been crossed"
-    #termi1 = "charge termination current threshold has been crossed and charging has been stopped. This can be due to a battery reaching full capacity or to a battery removal condition"
+    termi0 = "charging, charge termination current threshold has not been crossed"
+    termi1 = "charge termination current threshold has been crossed and charging has been stopped. "
     chconfig0 = bin(int(device.readI2C(TPS65271_CHGCONFIG0),16))
-    if len(chconfig0) < 5:
-        print "TERMI: 0" 
-    else:
-        TERMI = chconfig0[4]
+    # the chconfig0 register is presented like: 0b0..1.
+    # We'd like to detect: 0b10000.
+    if len(chconfig0) < 7:
+        print "TERMI: 0"
+        #print termi0
+    elif len(chconfig0) == 7:
+        TERMI = chconfig0[2]
         print "TERMI: "+ TERMI
+    else:
+        print "check the registers"
+        #print len(chconfig0)
 
 registers()
 checkTERMI()
